@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const colors = require('colors')
+const { MESSAGES } = require('../config/constant.config')
 
 function database() {
     mongoose
@@ -10,11 +11,11 @@ function database() {
             // userUnifiedTopology:true,
         })
         .then(() => {
-            console.log(`${'✔✔✔'.green}  ${'Hurray! mongoDB is connected'.yellow}`);
+            console.log(`${'✔✔✔'.green}`, MESSAGES.DATABASE.CONNECTED.yellow);
         })
         .catch((err) => {
             console.log(
-                '====== An error occured while connecting to database ======= ' + err
+                MESSAGES.DATABASE.ERROR.red + err
             );
         });
 }

@@ -32,7 +32,6 @@ class userService {
         // delete a user
         await users.findByIdAndUpdate(id, data)
         return await users.find(data, { _id: 1, password: 0 })
-
     }
 }
 module.exports = new userService();
