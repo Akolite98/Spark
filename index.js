@@ -1,8 +1,11 @@
 const express = require('express');
+const helmet = require('helmet')
 const colors = require('colors');
 const database = require('./src/database/db')
 const app = express();
+app.use(helmet())
 app.use(express.urlencoded({ extended: true }))
+
 
 
 require('dotenv').config();
