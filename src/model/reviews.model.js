@@ -14,10 +14,9 @@ const reviewSchema = new Schema(
     },
 
     company_name: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: user,
       required: true,
-      trim: true,
-      lowercase: true,
     },
 
     userName: {
