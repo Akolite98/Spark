@@ -1,4 +1,5 @@
 const users = require("../model/user.model");
+const reviews = require('../model/reviews.model')
 const mongoose = require('mongoose')
 
 class userService {
@@ -16,6 +17,11 @@ class userService {
     async getAllUsers() {
         //get all users
         return await users.find({}, { _id: 1, password: 0 })
+    }
+
+    async getAllReviews() {
+        //get all reviews
+        return await reviews.find({}, { _id: 1, password: 0 })
     }
 
     async deleteUser(id) {
