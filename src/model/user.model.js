@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 const rounds = parseInt(process.env.ROUNDS)
 const bcrypt = require('bcrypt')
-// const Review = require('./reviews.model.js')
+const review = require('./reviews.model.js')
 
 const userSchema = new Schema({
 
@@ -21,7 +21,7 @@ const userSchema = new Schema({
         lowercase: true,
     },
 
-    Company_description: {
+    company_description: {
         type: String,
         trim: true,
     },
@@ -32,9 +32,9 @@ const userSchema = new Schema({
         required: true,
     },
 
-    Reviews: [{
+    reviews: [{
         type: Schema.Types.ObjectId,
-        ref: Review
+        ref: review
     }],
 
 },

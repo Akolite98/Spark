@@ -25,6 +25,15 @@ const MESSAGES = {
         NOT_UPDATED: 'Account updated unsuccessful',
         UNAUTHORIZED: 'Unauthorized access',
         SERVER_ERROR: 'Internal Server Error'
+    },
+
+    REVIEW: {
+        SUCCESSFULLY_ADDED: 'Review added Successfully!',
+        FAILED_TO_ADD: "Failed To Add Review!",
+        FOUND_REVIEWS: "Reviews Successfully fetched",
+        FAILED_FETCH: "Unable to Fetch Review",
+        ERROR: "An Error Occured",
+
     }
 }
 

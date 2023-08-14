@@ -12,6 +12,7 @@ const {
     deleteUser,
     updateUser,
     getAllUsers,
+    getAllReviews,
     getAUserByEmail
 } = usersServices;
 
@@ -244,6 +245,29 @@ class userControllers {
         } catch (error) {
             return {
                 message: MESSAGES.USER.ERROR + error.message,
+                success: false,
+            };
+        }
+    }
+
+    // Handles fetching all Reviews
+    async fetchAllReviews(req, res) {
+        try {
+            const getAllReviews = await getAllReviews();
+            if (getAllReviews) {
+                return res.status(200).send({
+                    success: true,
+                    message: MESSAGES.REVIEW.FOUND_REVIEWS,
+                    data: getAllReviews
+                });
+            }
+            return res.status(400).send({
+                success: false,
+                message: MESSAGES.REVIEW.FAILED_FETCH
+            });
+        } catch (error) {
+            return {
+                message: MESSAGES.REVIEW.ERROR + error.message,
                 success: false,
             };
         }
