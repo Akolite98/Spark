@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("../model/user.model");
 const Schema = mongoose.Schema;
 const rounds = parseInt(process.env.ROUNDS);
 const bcrypt = require("bcrypt");
@@ -29,6 +30,7 @@ const reviewSchema = new Schema(
       type: Integer,
       trim: true,
       default: null,
+      required: true,
     },
 
     product: {
