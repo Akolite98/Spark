@@ -253,12 +253,12 @@ class userControllers {
     // Handles fetching all Reviews
     async fetchAllReviews(req, res) {
         try {
-            const getAllReviews = await getAllReviews();
-            if (getAllReviews) {
+            const getReviews = await getAllReviews();
+            if (getReviews) {
                 return res.status(200).send({
                     success: true,
                     message: MESSAGES.REVIEW.FOUND_REVIEWS,
-                    data: getAllReviews
+                    data: getReviews
                 });
             }
             return res.status(400).send({

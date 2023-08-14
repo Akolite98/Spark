@@ -21,7 +21,8 @@ class userService {
 
     async getAllReviews() {
         //get all reviews
-        return await reviews.find({}, { _id: 1, password: 0 })
+        return await reviews.find({})
+        
     }
 
     async deleteUser(id) {
