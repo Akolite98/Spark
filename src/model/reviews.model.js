@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const User = require("../model/user.model");
 const Schema = mongoose.Schema;
 const rounds = parseInt(process.env.ROUNDS);
 const bcrypt = require("bcrypt");
+const user = require("./user.model");
 
 const reviewSchema = new Schema(
   {
@@ -15,8 +15,8 @@ const reviewSchema = new Schema(
     },
 
     company_name: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: user,
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
 
@@ -27,7 +27,7 @@ const reviewSchema = new Schema(
     },
 
     Rating: {
-      type: Integer,
+      type: Number,
       trim: true,
       default: null,
       required: true,
