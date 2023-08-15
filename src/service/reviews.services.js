@@ -1,37 +1,23 @@
 const Review = require("../model/reviews.model");
+const { User } = require("../model/user.model");
 const mongoose = require("mongoose");
 
 class ReviewService {
-  // Create a new review
-  static async createReview(
-    email,
-    company_name,
-    userName,
-    Rating,
-    product,
-    feedBack
-  ) {
-    const review = new Review({
-      email,
-      company_name,
-      userName,
-      Rating,
-      product,
-      feedBack,
-    });
-
-    return review.save();
+  async createReview(data) {
+    //to create a user
+    await Review.create(data);
+    const rev = await Review.find(data);
+    console.log(rev);
+    return rev;
   }
 
-  // Get all reviews
-  static async getAllReviews() {
-    return Review.find();
+  async getAllReviews() {
+    return await Review.find({});
   }
 
-  // Get a review by its ID
-  static async getReviewById(reviewId) {
-    return Review.findById(reviewId);
+  async getCompanyReviews(companyId) {
+    return await Review.find({ company_name: companyId });
   }
 }
 
-module.exports = ReviewService;
+module.exports = new ReviewService();

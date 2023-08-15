@@ -1,52 +1,82 @@
 const express = require("express");
-const ReviewService = require("../services/review.service");
+const ReviewService = require("../service/reviews.services.js");
+const userService = require("../service/user.services");
 
 class ReviewController {
-  // Create a new review
-  static async createReview(req, res) {
-    const { email, company_name, userName, Rating, product, feedBack } =
-      req.body;
-
-    try {
-      await ReviewService.createReview(
-        email,
-        company_name,
-        userName,
-        Rating,
-        product,
-        feedBack
-      );
-
-      res.status(201).json({ message: "Review created successfully." });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
-  // Get all reviews
+  // Fetch all reviews
   static async getAllReviews(req, res) {
     try {
       const reviews = await ReviewService.getAllReviews();
-      res.status(200).json(reviews);
+      res.json({ success: true, reviews });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error("Error fetching all reviews:", error);
+      res
+        .status(500)
+        .json({ success: false, error: "Error fetching all reviews." });
     }
   }
 
-  // Get a review by its ID
-  static async getReviewById(req, res) {
-    const reviewId = req.params.id;
+  /// Create a review by company ID
+  static async createReview(req, res) {
+    try {
+      const { email, company_name, userName, Rating, product, feedBack } =
+        req.body;
+      const value = req.body;
+      const company = await userService.getAUserById(req.params.companyId);
+
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "no company with such Id",
+        });
+      }
+      // Populate the 'company_name' field with company data
+      //const populatedReview = await review.populate(review, {
+      // path: "company_name",
+      // });
+
+      const review = await ReviewService.createReview(value);
+      return review
+        ? res.status(201).send({
+            message: "REVIEWS.USER.CREATED",
+            success: true,
+          })
+        : res.status(400).send({
+            message: "REVIEWS.USER.N_CREATED",
+            success: false,
+          });
+      //await review.populate("user", "company_name");
+      
+    } catch (error) {
+      console.log(error);
+      // ...
+    }
+  }
+
+  // Fetch all company reviews by ID
+  static async getCompanyReviews(req, res) {
+    const companyId = req.params.companyId;
 
     try {
-      const review = await ReviewService.getReviewById(reviewId);
+      const reviews = await ReviewService.getAllReviews({
+        company_name: companyId,
+      });
 
-      if (!review) {
-        res.status(404).json({ message: "Review not found." });
+      if (reviews.length === 0) {
+        res.status(404).json({
+          success: false,
+          error: "No reviews found for the specified company.",
+        });
       } else {
-        res.status(200).json(review);
+        res.json({ success: true, reviews });
       }
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      //console.error("Error fetching company reviews:", error);
+      res.status(500).json({
+        success: false,
+        error:
+          "An error occurred while fetching company reviews. Please try again later.",
+      });
     }
   }
 }

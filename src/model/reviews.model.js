@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const rounds = parseInt(process.env.ROUNDS);
-const bcrypt = require("bcrypt");
+//const bcrypt = require("bcrypt");
 const user = require("./user.model");
 
 const reviewSchema = new Schema(
@@ -10,14 +10,12 @@ const reviewSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
       lowercase: true,
     },
 
     company_name: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required: true,
     },
 
     userName: {
@@ -43,19 +41,19 @@ const reviewSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      default: [],
+      //default: [],
     },
   },
   { timestamps: true }
 );
 
-reviewSchema.pre("save", async function (next) {
-  if (this.isModified("password") || this.isNew) {
-    const salt = await bcrypt.genSalt(rounds);
-    this.password = await bcrypt.hash(this.password, salt);
-  }
-  next();
-});
+// reviewSchema.pre("save", async function (next) {
+//   if (this.isModified("password") || this.isNew) {
+//     const salt = await bcrypt.genSalt(rounds);
+//     this.password = await bcrypt.hash(this.password, salt);
+//   }
+//   next();
+// });
 
 const Review = mongoose.model("Review", reviewSchema);
 
