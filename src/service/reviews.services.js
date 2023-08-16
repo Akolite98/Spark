@@ -3,20 +3,36 @@ const { User } = require("../model/user.model");
 const mongoose = require("mongoose");
 
 class ReviewService {
+
+  //this creates a review using the company id 
   async createReview(data) {
-    //to create a user
-    await Review.create(data);
-    const rev = await Review.find(data);
-    console.log(rev);
+    const rev = await Review.create(data);
     return rev;
   }
 
+  //this gets all the reviews regardless of the company
   async getAllReviews() {
-    return await Review.find({});
+    const val = await Review.find({}).populate({
+      path: 'company_name',
+      select: ['company_name', "company_description"]
+    });;
+    return val
   }
 
+  //get all the reviews pertaining to a specific company/user
   async getCompanyReviews(companyId) {
-    return await Review.find({ company_name: companyId });
+    return await Review.find(companyId).populate({
+      path: 'company_name',
+      select: ['company_name', "company_description"]
+    });
+  }
+
+  //get all the reviews pertaining to a specific company/user
+  async getAReviewById(reviewID) {
+    return await Review.findById(reviewID).populate({
+      path: 'company_name',
+      select: ['company_name', "company_description"]
+    });
   }
 }
 
