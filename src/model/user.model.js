@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const rounds = parseInt(process.env.ROUNDS);
 const bcrypt = require("bcrypt");
-const review = require("./reviews.model.js");
 
 const userSchema = new Schema(
   {
@@ -16,9 +15,7 @@ const userSchema = new Schema(
 
     company_name: {
       type: String,
-      required: true,
       trim: true,
-      lowercase: true,
     },
 
     company_description: {

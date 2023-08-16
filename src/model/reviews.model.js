@@ -24,7 +24,7 @@ const reviewSchema = new Schema(
       required: true,
     },
 
-    Rating: {
+    rating: {
       type: Number,
       trim: true,
       default: null,
