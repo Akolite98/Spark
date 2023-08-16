@@ -14,7 +14,7 @@ const reviewSchema = new Schema(
     },
 
     company_name: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, 
       ref: "user",
     },
 
@@ -46,14 +46,6 @@ const reviewSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// reviewSchema.pre("save", async function (next) {
-//   if (this.isModified("password") || this.isNew) {
-//     const salt = await bcrypt.genSalt(rounds);
-//     this.password = await bcrypt.hash(this.password, salt);
-//   }
-//   next();
-// });
 
 const Review = mongoose.model("Review", reviewSchema);
 

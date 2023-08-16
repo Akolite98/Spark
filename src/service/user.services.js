@@ -1,6 +1,5 @@
 const users = require("../model/user.model");
-const reviews = require('../model/reviews.model')
-const mongoose = require('mongoose')
+const Review = require('../model/reviews.model')
 
 class userService {
     async createUser(data) {
@@ -21,8 +20,7 @@ class userService {
 
     async getAllReviews() {
         //get all reviews
-        return await reviews.find({})
-        
+        return await Review.find()
     }
 
     async deleteUser(id) {

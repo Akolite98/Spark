@@ -9,7 +9,7 @@ const MESSAGES = {
         N_CREATED: "User account creation unsuccessfully",
         USER_FOUND: "Users found successfully",
         USER_NOT_FOUND: "User not found",
-        ERROR: "An Error Occured",
+        ERROR: "An Error Occured ",
         DUPLICATE_EMAIL: "Email already exists",
         DUPLICATE_USERNAME: "Username already exists",
         REGISTERED: "Registration successful",
@@ -32,7 +32,11 @@ const MESSAGES = {
         FAILED_TO_ADD: "Failed To Add Review!",
         FOUND_REVIEWS: "Reviews Successfully fetched",
         FAILED_FETCH: "Unable to Fetch Review",
-        ERROR: "An Error Occured",
+        ERROR: "An Error Occured ",
+        INVALID_ID: "Invalid ID",
+        NO_REVIEW: "No reviews found for the specified company.",
+        FETCHED: "Review successfully fetched",
+        EMPTY: "No Review available"
 
     }
 }
