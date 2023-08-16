@@ -23,7 +23,7 @@ const MESSAGES = {
         NOT_ACCOUNT_DELETED: 'Unable to delete user account',
         ACCOUNT_UPDATED: 'Account updated successfully',
         NOT_UPDATED: 'Account updated unsuccessful',
-        UNAUTHORIZED: 'Unauthorized access',
+        UNAUTHORIZED: 'Unauthorized access ',
         SERVER_ERROR: 'Internal Server Error'
     },
 
