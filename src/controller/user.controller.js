@@ -251,31 +251,6 @@ class userControllers {
         }
     }
 
-    // Handles fetching all Reviews
-    async fetchAllReviews(req, res) {
-        try {
-            //gets all reviews
-            const getReviews = await ReviewService.getAllReviews();
-            console.log("here now", getReviews)
-
-            if (getReviews) {
-                return res.status(200).send({
-                    success: true,
-                    message: MESSAGES.REVIEW.FOUND_REVIEWS,
-                    data: getReviews
-                });
-            }
-            return res.status(400).send({
-                success: false,
-                message: MESSAGES.REVIEW.FAILED_FETCH
-            });
-        } catch (error) {
-            return {
-                message: MESSAGES.REVIEW.ERROR + error.message,
-                success: false,
-            };
-        }
-    }
 }
 
 module.exports = new userControllers();
