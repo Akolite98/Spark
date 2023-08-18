@@ -4,8 +4,7 @@ const { MESSAGES } = require('../config/constant.config');
 const usersServices = require('../service/user.services');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const ReviewService = require("../service/reviews.services.js");
-const mongoose = require('mongoose')
+
 
 
 // Destructure service functions from usersServices
@@ -15,7 +14,6 @@ const {
     deleteUser,
     updateUser,
     getAllUsers,
-    getAllReviews,
     getAUserByEmail
 } = usersServices;
 
@@ -28,7 +26,7 @@ class userControllers {
             const findUserEmail = await getAUserByEmail({ email: email });
             if (!email) {
                 return res.status(404).send({
-                    message: 'Enter email address',
+                    message: MESSAGES.USER.ENTER_EMAIL,
                     success: false
                 });
             }
@@ -47,11 +45,11 @@ class userControllers {
             const user = await createUser(data);
             return user
                 ? res.status(201).send({
-                    message: "MESSAGES.USER.CREATED",
+                    message: MESSAGES.USER.CREATED,
                     success: true,
                 })
                 : res.status(400).send({
-                    message: "MESSAGES.USER.N_CREATED",
+                    message: MESSAGES.USER.N_CREATED,
                     success: false
                 });
 
@@ -239,6 +237,7 @@ class userControllers {
                     data: getUsers
                 });
             }
+            console.log("here ",decoded)
             return res.status(400).send({
                 success: false,
                 message: MESSAGES.USER.USER_NOT_FOUND

@@ -1,4 +1,5 @@
 const express = require("express");
+const nodemailer = require('nodemailer');
 const ReviewService = require("../service/reviews.services.js");
 const userService = require("../service/user.services");
 const { MESSAGES } = require('../config/constant.config')
@@ -8,6 +9,12 @@ const {
   getAUserById,
 } = usersServices;
 const users = require("../model/user.model");
+const senderEmail = process.env.EMAIL;
+const pass = process.env.APP_PASSWORD
+
+
+
+
 
 
 class ReviewController {
@@ -44,7 +51,7 @@ class ReviewController {
       if (!company) {
         return res.status(404).json({
           success: false,
-          message: "no company with such Id",
+          message: MESSAGES.USER.USER_NOT_FOUND,
         });
       }
 
@@ -58,19 +65,63 @@ class ReviewController {
         $set: { updatedAt: new Date() }
       }, { new: true })
 
-      const createdID = review.id
-      const createdReview = await ReviewService.getAReviewById(createdID)
+      const compEmail = company['email']
 
-      return review
-        ? res.status(201).send({
-          message: MESSAGES.REVIEW.SUCCESSFULLY_ADDED,
-          success: true,
-          createdReview
-        })
-        : res.status(400).send({
-          message: MESSAGES.REVIEW.FAILED_TO_ADD,
-          success: false,
+
+      if (updated) {
+        //send an email once review is created
+        const transporter = nodemailer.createTransport({
+          service: "yahoo",
+          auth: {
+            user: senderEmail,
+            pass: pass
+          }
         });
+
+        const reviewDetails = {
+          username: review.userName,
+          rating: review.rating,
+          product: review.product,
+          feedback: review.feedBack
+        };
+
+        const formattedReviewDetails = Object.keys(reviewDetails)
+          .map(key => `${key}: ${reviewDetails[key]}`)
+          .join("\n  ");
+
+        // Composed the email message
+        const mailOptions = {
+          from: senderEmail,
+          to: compEmail,
+          subject: 'New Review Available',
+          text: `Hello,\n\nA new review is available for you:\n\n  ${formattedReviewDetails}\n\nBest regards,\nReviewNest`
+
+        };
+
+        // Sending the email 
+        transporter.sendMail(mailOptions, (error) => {
+          if (error) {
+            return res.status(501).send({
+              success: false,
+              message: MESSAGES.REVIEW.NOT_SENT, error
+            })
+          }
+        });
+
+        const createdID = review.id
+        const createdReview = await ReviewService.getAReviewById(createdID)
+
+        return review
+          ? res.status(201).send({
+            message: MESSAGES.REVIEW.SUCCESSFULLY_ADDED,
+            success: true,
+            createdReview
+          })
+          : res.status(400).send({
+            message: MESSAGES.REVIEW.FAILED_TO_ADD,
+            success: false,
+          });
+      }
 
     } catch (error) {
       return {
@@ -99,6 +150,12 @@ class ReviewController {
 
           //if the company exists, find all their reviews
           const reviewsArray = company['reviews']
+          if (reviewsArray.length === 0) {
+            return res.status(404).send({
+              success: true,
+              message: MESSAGES.REVIEW.EMPTY
+            })
+          }
 
           return res.status(201).send(
             {
