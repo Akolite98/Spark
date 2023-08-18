@@ -21,6 +21,7 @@ const userSchema = new Schema(
     company_description: {
       type: String,
       trim: true,
+      default: ''
     },
 
     password: {
